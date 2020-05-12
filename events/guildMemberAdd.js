@@ -3,14 +3,14 @@ const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const prefix = botsettings.prefix;
 const mintime = botsettings.mintime;
-const roleid = botsettings.roleid;
+const roleid = botsettings.roleid_member;
 
 exports.run = (bot, member) => 
 {
     let dialogue = [
         `Welcome to the ProdigyMathGameHacking Discord!`,
-        `Before we get you started, we need you to become familiar with our rules.`,
-        `They can be found on our server in the <#687339734279651375> channel.`
+        `Before we get you started, we need you to become familiar with our rules and faq.`,
+        `They can be found on our server in the <#687339734279651375> and <#701517404659777666> channels.`
     ]
 
     dialogue.forEach(msg => {
@@ -18,7 +18,7 @@ exports.run = (bot, member) =>
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("WELCOME")
             .setDescription(msg)
-            .setColor(colors.welcome)
+            .setColor(colors.info)
         member.sendEmbed(welcomeEmbed);
     })
     let startReviewEmbed = new Discord.RichEmbed()
