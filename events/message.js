@@ -10,12 +10,12 @@ if(message.content === botSettings.token){
    message.delete(0);
 }
 
+if(message.author.bot) return;
+if(message.channel.type === "dm") return;
+
 if(message.channel.id === channelid && !(content.startsWith("?verify") || content.startsWith("?done"))) {
     message.delete(0);
 }
-
-if(message.author.bot) return;
-if(message.channel.type === "dm") return;
 
 // warn and help feature
 if(content.includes("hack my acc")) {
@@ -24,7 +24,7 @@ if(content.includes("hack my acc")) {
         cmd.run(bot, message.channel)
     } else {
         message.delete(0);
-        message.channel.send(`^warn ${message.author.id} Account Hacking Request`)
+        message.author.send(`You have been warned for: \`Account Hacking Request\`. Any evasion of this automatic warning system will result in a ban from the server. All instructions for hacking can be found by using the \`${prefix}hackinfo\` command in the server.`)
     }
 }
 
