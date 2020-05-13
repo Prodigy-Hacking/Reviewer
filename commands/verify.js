@@ -4,6 +4,7 @@ const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const prefix = botsettings.prefix;
 const roleid = botsettings.roleid_github;
+const channelid = botsettings.channelid_github;
 
 /**
  *
@@ -16,6 +17,7 @@ module.exports.run = async (bot, message, args) => {
     let channel = message.channel;
     let username = args[0];
 
+    if(channel.id !== channelid) return error(`ERROR: Incorrect usage. Please run this command in the <#${channelid}> channel!`)
     if(!username) return error("ERROR: Incorrect usage. Use `^verify Github_Username` to properly run this command!")
 
     let dialogue = [
