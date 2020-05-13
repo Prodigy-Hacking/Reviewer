@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
     let username = args[0];
 
     if(channel.id !== channelid) return error(`ERROR: Incorrect usage. Please run this command in the <#${channelid}> channel!`)
-    if(!username) return error("ERROR: Incorrect usage. Use `^verify Github_Username` to properly run this command!")
+    if(!username) return error(`ERROR: Incorrect usage. Use \`${prefix}verify Github_Username\` to properly run this command!`)
 
     let dialogue = [
         `To start verification, we need you to create a new gist. Make sure you are logged into your github account!`,
