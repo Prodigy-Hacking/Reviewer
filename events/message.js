@@ -1,6 +1,7 @@
 const botSettings = require("../botsettings.json");
 const prefix = botSettings.prefix;
-const channelid = botSettings.channelid_github;
+const github_channelid = botSettings.channelid_github;
+const pending_channelid = botSettings.channelid_pendingbugs;
 
 exports.run = async (bot, message) => {
 
@@ -11,9 +12,12 @@ if(message.content === botSettings.token){
 }
 
 if(message.author.bot) return;
-if(message.channel.type === "dm") return;
 
-if(message.channel.id === channelid && !(content.startsWith("?verify") || content.startsWith("?done"))) {
+// Whitelist commands in specific channels
+if(message.channel.id === github_channelid && !(content.startsWith("?verify ") || content.startsWith("?done "))) {
+    message.delete(0);
+}
+if(message.channel.id === pending_channelid && !(content.startsWith("?accept ") || content.startsWith("?deny "))) {
     message.delete(0);
 }
 
@@ -21,7 +25,7 @@ if(message.channel.id === channelid && !(content.startsWith("?verify") || conten
 if(content.includes("hack my acc")) {
     if(content.startsWith("how do i")) {
         let cmd = bot.commands.get("hackinfo");
-        cmd.run(bot, message.channel)
+        cmd.run(bot, message)
     } else {
         message.delete(0);
         message.author.send(`You have been warned for: \`Account Hacking Request\`. Any evasion of this automatic warning system will result in a ban from the server. All instructions for hacking can be found by using the \`${prefix}hackinfo\` command in the server.`)

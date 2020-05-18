@@ -19,7 +19,7 @@ exports.run = (bot, member) =>
             .setTitle("WELCOME")
             .setDescription(msg)
             .setColor(colors.info)
-        member.sendEmbed(welcomeEmbed);
+        member.send(welcomeEmbed);
     })
     let startReviewEmbed = new Discord.RichEmbed()
         .setAuthor('Reviewer -', bot.avatarURL)
@@ -40,7 +40,7 @@ exports.run = (bot, member) =>
     review(member, startReviewEmbed);
 
     function review(member, statusEmbed) {
-        member.sendEmbed(statusEmbed).then(() => {
+        member.send(statusEmbed).then(() => {
             let filter = m => true;
             let startTime = Date.now();
             member.user.dmChannel.awaitMessages(filter, {max: 1}).then(collected => {
@@ -53,7 +53,7 @@ exports.run = (bot, member) =>
         })
     }
     function validate(member) {
-        member.sendEmbed(successEmbed).then(() => {
+        member.send(successEmbed).then(() => {
             let role = member.guild.roles.find(r => r.id === roleid)
             member.addRole(role)
         })

@@ -26,13 +26,13 @@ module.exports.run = async (bot, message, args) => {
         `You will need to name this new gist \`prodigy.md\`. Paste \`${member.id}\` into the code of the gist and click \`Create public gist\`.`,
     ]
     
-    dialogue.forEach(msg => {
+    dialogue.forEach(msrtg => {
         let promptGistCreateEmbed = new Discord.RichEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("VERIFY")
             .setDescription(msg)
             .setColor(colors.info)
-        channel.sendEmbed(promptGistCreateEmbed)
+        channel.send(promptGistCreateEmbed)
     })
 
     let promptGistCreateEmbed = new Discord.RichEmbed()
@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
 
     // Ask user to create new gist
     function startGistPrompt(member, embed) {
-        channel.sendEmbed(embed).then(() => waitForDone(member))
+        channel.send(embed).then(() => waitForDone(member))
     }
 
     // Wait for done.
@@ -96,7 +96,7 @@ module.exports.run = async (bot, message, args) => {
 
     function assign(member) {
         let role = message.guild.roles.find(r => r.id === roleid)
-        member.addRole(role).then(channel.sendEmbed(verifiedEmbed))
+        member.addRole(role).then(channel.send(verifiedEmbed))
     }
 
     // Error Handler
@@ -107,14 +107,14 @@ module.exports.run = async (bot, message, args) => {
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nVerification process halted. Please run the command again to restart verification.`)
             .setColor(colors.error)
-        channel.sendEmbed(errorEmbed)
+        channel.send(errorEmbed)
     }
 }
 
 
 module.exports.help = {
     name: "verify",
-    description:"Connect your discord account to github."
+    description:`Connect your discord account to github. Can only be run in <#${channelid}> channel.`
 }
 
 
