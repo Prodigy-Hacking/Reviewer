@@ -29,23 +29,23 @@ module.exports = class BugReport {
         function createTestersList(report) {
             if(report.acceptersList.length < 1) {
                 if(report.deniersList.length < 1) {
-                    return "**NONE**"
+                    return "**NONE**";
                 }
-                return report.deniersList.join("\n")
+                return report.deniersList.join("\n");
             } else {
                 if(report.deniersList.length < 1) {
-                    return report.acceptersList.join("\n")
+                    return report.acceptersList.join("\n");
                 }
-                return `${report.acceptersList.join("\n")}\n${report.deniersList.join("\n")}`
+                return `${report.acceptersList.join("\n")}\n${report.deniersList.join("\n")}`;
             }
         }
         const colorStateMap = {
             pending: colors.standby,
             approved: colors.valid,
             denied: colors.error
-        }
+        };
         const bugReportEmbed = new Discord.RichEmbed()
-            .setAuthor('Reviewer -', bot.avatarURL)
+            .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle(`BUG REPORT - ID: ${report.id}`)
             .setDescription(`**New bug report submitted by: \`${report.authorTag}\`**`)
             .addField("Name of the affected hack -", report.name)
@@ -55,7 +55,7 @@ module.exports = class BugReport {
             .addField("Actual result -", report.actualResult)
             .addField("Testers -", createTestersList(report))
             .setFooter(`Status: ${report.state}`)
-            .setColor(colorStateMap[report.state])
+            .setColor(colorStateMap[report.state]);
         return bugReportEmbed;
     }
     static async submit(report, bot) {
@@ -85,23 +85,23 @@ module.exports = class BugReport {
             // Submit to github repo
             function formatReportForGithub(report) {
                 function createTestersList(report) {
-                    const acceptersList = report.acceptersList.map(acceptor => "- " + acceptor)
-                    const deniersList = report.deniersList.map(denier => "- " + denier)
+                    const acceptersList = report.acceptersList.map(acceptor => "- " + acceptor);
+                    const deniersList = report.deniersList.map(denier => "- " + denier);
                     if(acceptersList.length < 1) {
                         if(deniersList.length < 1) {
-                            return "**NONE**"
+                            return "**NONE**";
                         }
-                        return deniersList.join("\n")
+                        return deniersList.join("\n");
                     } else {
                         if(deniersList.length < 1) {
-                            return acceptersList.join("\n")
+                            return acceptersList.join("\n");
                         }
-                        return `${acceptersList.join("\n")}\n${deniersList.join("\n")}`
+                        return `${acceptersList.join("\n")}\n${deniersList.join("\n")}`;
                     }
                 }
                 
                 const fieldBuilder = (key, val) => `## ${key}\n${val}`;
-                const reportHeader = `# Bug Report - ID: ${report.id}\n#### Submitted by: \`${report.authorTag}\``
+                const reportHeader = `# Bug Report - ID: ${report.id}\n#### Submitted by: \`${report.authorTag}\``;
                 const reportBody = (
                     "\n\n" + fieldBuilder("Name of affected hack", report.name) +
                     "\n\n" + fieldBuilder("Description of bug", report.desc) +
@@ -115,10 +115,10 @@ module.exports = class BugReport {
             }
             
             const issueBody = {
-                'title': `AUTO BUG SYSTEM: ${report.name}`,
-                'body': formatReportForGithub(report),
-                'labels': ["Bug", "ABS"] 
-            }
+                "title": `AUTO BUG SYSTEM: ${report.name}`,
+                "body": formatReportForGithub(report),
+                "labels": ["Bug", "ABS"] 
+            };
 
             fetch("https://api.github.com/repos/Prodigy-Hacking/ProdigyMathGameHacking/issues", {
                 "method": "POST",
@@ -128,15 +128,15 @@ module.exports = class BugReport {
                     "Authorization": `token ${github_token}`
                 }
             })
-            .then(res => res.json())
-            .then(json => {
-                if (json.Status == 201) {
-                    console.log(`Issue created at ${json.status.Location}`)
-                }
-                else {
-                    console.log(`Something went wrong. Response: ${JSON.stringify(json)}`)
-                }
-            });
+                .then(res => res.json())
+                .then(json => {
+                    if (json.Status == 201) {
+                        console.log(`Issue created at ${json.status.Location}`);
+                    }
+                    else {
+                        console.log(`Something went wrong. Response: ${JSON.stringify(json)}`);
+                    }
+                });
 
             // Submit to approved queue channel
             const approved_channel = bot.channels.find(c => c.id === approved_channelid);
@@ -145,11 +145,11 @@ module.exports = class BugReport {
 
             // Give submission user bug hunter role
             const guild = bot.channels.find(c => c.id === pending_channelid).guild;
-            let role = guild.roles.find(r => r.id === bughunter_roleid)
-            let member = guild.members.find(m => m.id === report.authorID)
-            member.addRole(role)
+            let role = guild.roles.find(r => r.id === bughunter_roleid);
+            let member = guild.members.find(m => m.id === report.authorID);
+            member.addRole(role);
         }
-        BugReport.edit(report, bot)
+        BugReport.edit(report, bot);
     }
     static decline(report, denial, testerID, bot) {
         report.testersList.push(testerID);
@@ -159,6 +159,6 @@ module.exports = class BugReport {
             // Resolve bug
             report.state = "denied";
         }
-        BugReport.edit(report, bot)
+        BugReport.edit(report, bot);
     }
-}
+};

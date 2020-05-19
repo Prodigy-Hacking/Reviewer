@@ -17,41 +17,41 @@ module.exports.run = async (bot, message, args) => {
     let channel = message.channel;
     let username = args[0];
 
-    if(channel.id !== channelid) return error(`ERROR: Incorrect usage. Please run this command in the <#${channelid}> channel!`)
-    if(!username) return error(`ERROR: Incorrect usage. Use \`${prefix}verify Github_Username\` to properly run this command!`)
+    if(channel.id !== channelid) return error(`ERROR: Incorrect usage. Please run this command in the <#${channelid}> channel!`);
+    if(!username) return error(`ERROR: Incorrect usage. Use \`${prefix}verify Github_Username\` to properly run this command!`);
 
     let dialogue = [
-        `To start verification, we need you to create a new gist. Make sure you are logged into your github account!`,
-        `Please click on this link to create a new public gist: https://gist.github.com/.`,
+        "To start verification, we need you to create a new gist. Make sure you are logged into your github account!",
+        "Please click on this link to create a new public gist: https://gist.github.com/.",
         `You will need to name this new gist \`prodigy.md\`. Paste \`${member.id}\` into the code of the gist and click \`Create public gist\`.`,
-    ]
+    ];
     
     dialogue.forEach(msrtg => {
         let promptGistCreateEmbed = new Discord.RichEmbed()
-            .setAuthor('Reviewer -', bot.avatarURL)
+            .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("VERIFY")
             .setDescription(msg)
-            .setColor(colors.info)
-        channel.send(promptGistCreateEmbed)
-    })
+            .setColor(colors.info);
+        channel.send(promptGistCreateEmbed);
+    });
 
     let promptGistCreateEmbed = new Discord.RichEmbed()
-        .setAuthor('Reviewer -', bot.avatarURL)
+        .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("Waiting...")
         .setDescription(`When you are done with the previous steps, come back to this channel and type ${prefix}done.`)
-        .setColor(colors.standby)
+        .setColor(colors.standby);
 
     let verifiedEmbed = new Discord.RichEmbed()
-        .setAuthor('Reviewer -', bot.avatarURL)
+        .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("VERIFIED!")
-        .setDescription(`You're all good to go! We have added the \`@github\` role to your user.`)
-        .setColor(colors.valid)
+        .setDescription("You're all good to go! We have added the `@github` role to your user.")
+        .setColor(colors.valid);
 
-    startGistPrompt(member, promptGistCreateEmbed)
+    startGistPrompt(member, promptGistCreateEmbed);
 
     // Ask user to create new gist
     function startGistPrompt(member, embed) {
-        channel.send(embed).then(() => waitForDone(member))
+        channel.send(embed).then(() => waitForDone(member));
     }
 
     // Wait for done.
@@ -62,25 +62,25 @@ module.exports.run = async (bot, message, args) => {
             collected.forEach(msg => {
                 if(filter(msg)) {
                     return msg.content.startsWith(`${prefix}done`)? 
-                    getLatestGist(username) : 
-                    error(`ERROR: Your message was not ${prefix}done.`);
-                } else waitForDone(member)
-            })
-        })
+                        getLatestGist(username) : 
+                        error(`ERROR: Your message was not ${prefix}done.`);
+                } else waitForDone(member);
+            });
+        });
     }
 
     // Check user for new gist.
 
     function getLatestGist(username) {
         fetch(`https://api.github.com/users/${username}/gists`).then(res => res.json()).then(gists => {
-            let verifygists = gists.filter(gist => gist.files.hasOwnProperty("prodigy.md"))
+            let verifygists = gists.filter(gist => gist.files.hasOwnProperty("prodigy.md"));
             if(verifygists.length > 0) {
                 let verificationGistUrl = verifygists[0].files["prodigy.md"].raw_url;
                 fetch(verificationGistUrl).then(res => res.text()).then(data => {
                     return verify(member, data);
-                })
+                });
             } else {
-                return error(`ERROR: No new gists for user ${username} with filename prodigy.md`)
+                return error(`ERROR: No new gists for user ${username} with filename prodigy.md`);
             }
             
         }).catch(err => error(`ERROR: Fetch for latest gists of ${username} returned an error. This user probably doesn't exist.`));
@@ -95,26 +95,26 @@ module.exports.run = async (bot, message, args) => {
     // Assign Roles
 
     function assign(member) {
-        let role = message.guild.roles.find(r => r.id === roleid)
-        member.addRole(role).then(channel.send(verifiedEmbed))
+        let role = message.guild.roles.find(r => r.id === roleid);
+        member.addRole(role).then(channel.send(verifiedEmbed));
     }
 
     // Error Handler
     
     function error(errorMessage) {
         let errorEmbed = new Discord.RichEmbed()
-            .setAuthor('Reviewer -', bot.avatarURL)
+            .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nVerification process halted. Please run the command again to restart verification.`)
-            .setColor(colors.error)
-        channel.send(errorEmbed)
+            .setColor(colors.error);
+        channel.send(errorEmbed);
     }
-}
+};
 
 
 module.exports.help = {
     name: "verify",
     description:`Connect your discord account to github. Can only be run in <#${channelid}> channel.`
-}
+};
 
 
