@@ -38,13 +38,13 @@ module.exports.run = async (bot, message, args) => {
         }
         const reportsArr = JSON.parse(data);
         const report = reportsArr.find(report => report.id === bugReportID);
-        if(!report) {
+        if (!report) {
             return error(`ERROR: No bug report found with id: \`${bugReportID}\`.`);
         }
-        if(report.testersList.includes(acceptorID)) {
+        if (report.testersList.includes(acceptorID)) {
             return error(`ERROR: You are already a tester for this bug report.`)
         }
-        if((report.acceptersList.length + report.deniersList.length) > 16) {
+        if ((report.acceptersList.length + report.deniersList.length) > 16) {
             return error(`ERROR: This report has too many testers already.`)
         }
         const acceptance = `:white_check_mark: **${acceptor}**: \`${reason}\``
