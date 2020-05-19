@@ -8,7 +8,7 @@ exports.run = async (bot, message) => {
 let content = message.content.toLowerCase();
 
 if(message.content === botSettings.token){
-   message.delete(0);
+    message.delete(0);
 }
 
 if(message.author.bot) return;
