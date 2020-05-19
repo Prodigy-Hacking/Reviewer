@@ -1,6 +1,6 @@
 const { RichEmbed } = require("discord.js");
-const botSettings = require("../botsettings.json");
 const colors = require("../colors.json");
+
 module.exports.run = async (bot, message, args) => {
     let commands = [];
     bot.commands.forEach(c => {
