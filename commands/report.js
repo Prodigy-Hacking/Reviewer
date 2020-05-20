@@ -11,7 +11,7 @@ const fs = require("fs");
 module.exports.run = async (bot, message, args) => {
     const member = message.author;
     const channel = message.channel;
-
+    //Prompt for bug
     const bugFormDialogue = {
         name: `Please enter the name of the affected script/hack.`,
         desc: `Please write a short description about the bug.`,
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
         expectedResult: `Please enter the expected result of the script. (The one that would occur if the bug were fixed.)`,
         actualResult: `Please enter the actual result of the script. (The one that occurs now.)`
     }
-    
+    //Errors
     if(bot.reporting.has(member.id)) return;
     if(channel.type != "dm") {
         message.delete(0);
@@ -52,6 +52,7 @@ module.exports.run = async (bot, message, args) => {
         let report = new BugReport(member, ...dialogueResults);
         await submit(report);
     }
+    //Waiting for response...
     async function waitForResponse(dialogueResults) {
         let filter = m => m.author.id === member.id && !m.author.bot;
         await channel.awaitMessages((() => true), {max: 1}).then(async (collected) => {
