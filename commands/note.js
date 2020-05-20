@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const colors = require("../colors.json");
 const BugReport = require("../utils/bugReport.js");
 const fs = require("fs");
-const botSettings = require("../botsettings.json");
+const botSettings = require("../botsettings.json")
 const pending_channelid = botSettings.channelid_pendingbugs;
 const prefix = botSettings.prefix;
 const reasonlimit = botSettings.reasonlimit;
@@ -15,22 +15,21 @@ const reasonlimit = botSettings.reasonlimit;
 module.exports.run = async (bot, message, args) => {
     let bugReportID = args[0];
     let reason = args.slice(1).join(' ');
-    let denier = message.author.tag;
-    let denierID = message.author.id;
+    let noter = message.author.tag;
+    let noterID = message.author.id;
     let channel = message.channel;
-
 
     if(channel.id !== pending_channelid) {
         return error(`ERROR: Incorrect usage. Please use this command in the <#${pending_channelid}> channel.`)
     }
     if(!bugReportID || !reason) {
-        return error(`ERROR: Incorrect usage. Run this command with the following format: \`${prefix}deny report_id reason\``)
+        return error(`ERROR: Incorrect usage. Run this command with the following format: \`${prefix}note report_id note_msg\``)
     }
     if(reason.length > reasonlimit) {
-        return error(`ERROR: Reason too long. It must be less than ${reasonlimit} characters.`)
+        return error(`ERROR: Note too long. It must be less than ${reasonlimit} characters.`)
     }
     if(reason.includes("`")) {
-        return error("ERROR: Reason cannot contain the ` character.")
+        return error("ERROR: Note cannot contain the ` character.")
     }
 
     fs.readFile("./reports.json", "utf8", (err, data) => {
@@ -41,17 +40,19 @@ module.exports.run = async (bot, message, args) => {
         const reportsArr = JSON.parse(data);
         const report = reportsArr.find(report => report.id === bugReportID);
         if(!report) {
-            return error(`No bug report found with id: \`${bugReportID}\`.`);
+            return error(`ERROR: No bug report found with id: \`${bugReportID}\`.`);
         }
-        if((report.acceptersList.length + report.deniersList.length) > (800 / reasonlimit)) {
-            return error(`ERROR: This report has too many testers already.`)
+        if(!report.notersList) report.notersList = [];
+        if(!report.notes) report.notes = [];
+        if(report.notes.length > (800 / reasonlimit)) {
+            return error(`ERROR: This report has too many noters already.`)
         }
-        const rejectance = {
-            "denier": denier,
-            "reason": reason,
+        const note = {
+            "noter": noter,
+            "note": reason,
             "force": false
         }
-        BugReport.decline(report, rejectance, denierID, bot)
+        BugReport.addNote(report, note, noterID, bot)
         const reportsJSON = JSON.stringify(reportsArr);
         fs.writeFile('./reports.json', reportsJSON, 'utf8', err => {
             if(err) {
@@ -68,7 +69,7 @@ module.exports.run = async (bot, message, args) => {
         const errorEmbed = new Discord.RichEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
-            .setDescription(`${errorMessage}\nBug denial process halted. Please run the command again to restart your report.`)
+            .setDescription(`${errorMessage}\nBug note process halted. Please run the command again to restart your report.`)
             .setColor(colors.error)
         channel.send(errorEmbed).then(msg => {
             message.delete(0)
@@ -79,6 +80,6 @@ module.exports.run = async (bot, message, args) => {
 
 
 module.exports.help = {
-    name: "deny",
-    description:`Denies a bug report. Can only be run in <#${pending_channelid}> channel by bug hunters.`
+    name: "note",
+    description:`Adds a note to a bug report. Can only be run in <#${pending_channelid}> channel by bug hunters.`
 }

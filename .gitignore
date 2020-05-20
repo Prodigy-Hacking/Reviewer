@@ -59,5 +59,8 @@ typings/
 #Bot Settings
 botsettings.json
 
+# Reports
+reports.json
+
 #Node
 node_modules/

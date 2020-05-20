@@ -1,7 +1,7 @@
 {
-  "name": "drift",
+  "name": "reviewer",
   "version": "1.0.0",
-  "description": "Drift - A Helpful Discord Bot from the Drift Development Team",
+  "description": "Reviewer - A Helpful Discord Bot from the Reviewer Development Team",
   "main": "bot.js",
   "dependencies": {
     "array-sort": "^1.0.0",
@@ -40,11 +40,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "DriftBot",
-    "Drift",
+    "ReviewerBot",
+    "Reviewer",
     "Discord",
-    "DriftDiscord"
+    "ReviewerDiscord"
   ],
-  "author": "The Drift Development Team",
+  "author": "The Reviewer Development Team",
   "license": "GPL-3.0"
 }

@@ -2,6 +2,13 @@ const botSettings = require("../botsettings.json");
 const prefix = botSettings.prefix;
 const github_channelid = botSettings.channelid_github;
 const pending_channelid = botSettings.channelid_pendingbugs;
+const pending_channel_commands = [
+    "accept",
+    "deny",
+    "forceaccept",
+    "forcedeny",
+    "note"
+]
 
 exports.run = async (bot, message) => {
 
@@ -17,8 +24,9 @@ if(message.author.bot) return;
 if(message.channel.id === github_channelid && !(content.startsWith("?verify ") || content.startsWith("?done "))) {
     message.delete(0);
 }
-if(message.channel.id === pending_channelid && !(content.startsWith("?accept ") || content.startsWith("?deny "))) {
+if(message.channel.id === pending_channelid && !(pending_channel_commands.some(command => content.startsWith(`${prefix + command} `)))) {
     message.delete(0);
+    return;
 }
 
 // warn and help feature

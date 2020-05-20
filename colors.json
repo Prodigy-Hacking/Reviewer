@@ -2,5 +2,6 @@
     "info": "#711cd8",
     "standby": "#ded82a",
     "valid": "#2ade2d",
-    "error": "#de2a2a"
+    "error": "#de2a2a",
+    "dev": "#ffffff"
 }
