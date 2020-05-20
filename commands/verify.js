@@ -12,20 +12,20 @@ const channelid = botsettings.channelid_github;
  * @param {Discord.Message} message
  */
 module.exports.run = async (bot, message, args) => {
-
+    //Check for userID and check if in right channel
     let member = message.guild.member(message.author);
     let channel = message.channel;
     let username = args[0];
-
+    //Errors
     if(channel.id !== channelid) return error(`ERROR: Incorrect usage. Please run this command in the <#${channelid}> channel!`)
     if(!username) return error(`ERROR: Incorrect usage. Use \`${prefix}verify Github_Username\` to properly run this command!`)
-
+    //Instructions for user.
     let dialogue = [
         `To start verification, we need you to create a new gist. Make sure you are logged into your github account!`,
         `Please click on this link to create a new public gist: https://gist.github.com/.`,
         `You will need to name this new gist \`prodigy.md\`. Paste \`${member.id}\` into the code of the gist and click \`Create public gist\`.`,
     ]
-    
+    //Beginning Message
     dialogue.forEach(msrtg => {
         let promptGistCreateEmbed = new Discord.RichEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
@@ -34,19 +34,19 @@ module.exports.run = async (bot, message, args) => {
             .setColor(colors.info)
         channel.send(promptGistCreateEmbed)
     })
-
+    //Pending message
     let promptGistCreateEmbed = new Discord.RichEmbed()
         .setAuthor('Reviewer -', bot.avatarURL)
         .setTitle("Waiting...")
         .setDescription(`When you are done with the previous steps, come back to this channel and type ${prefix}done.`)
         .setColor(colors.standby)
-
+    //Success message
     let verifiedEmbed = new Discord.RichEmbed()
         .setAuthor('Reviewer -', bot.avatarURL)
         .setTitle("VERIFIED!")
         .setDescription(`You're all good to go! We have added the \`@github\` role to your user.`)
         .setColor(colors.valid)
-
+    //Starts gist prompt
     startGistPrompt(member, promptGistCreateEmbed)
 
     // Ask user to create new gist
