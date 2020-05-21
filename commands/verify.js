@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
         `You will need to name this new gist \`prodigy.md\`. Paste \`${member.id}\` into the code of the gist and click \`Create public gist\`.`,
     ]
     
-    dialogue.forEach(msrtg => {
+    dialogue.forEach(msg => {
         let promptGistCreateEmbed = new Discord.RichEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("VERIFY")
