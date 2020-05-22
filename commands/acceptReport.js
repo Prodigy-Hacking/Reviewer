@@ -5,6 +5,7 @@ const fs = require("fs");
 const botSettings = require("../botsettings.json");
 const pending_channelid = botSettings.channelid_pendingbugs;
 const prefix = botSettings.prefix;
+const reasonlimit = botSettings.reasonlimit;
 
 /**
  *
@@ -24,8 +25,8 @@ module.exports.run = async (bot, message, args) => {
     if(!bugReportID || !reason) {
         return error(`ERROR: Incorrect usage. Run this command with the following format: \`${prefix}accept report_id reason\``);
     }
-    if(reason.length > 50) {
-        return error("ERROR: Reason too long. It must be less than 50 characters.");
+    if(reason.length > reasonlimit) {
+        return error(`ERROR: Reason too long. It must be less than ${reasonlimit} characters.`)
     }
     if(reason.includes("`")) {
         return error("ERROR: Reason cannot contain the ` character.");
@@ -41,14 +42,15 @@ module.exports.run = async (bot, message, args) => {
         if (!report) {
             return error(`ERROR: No bug report found with id: \`${bugReportID}\`.`);
         }
-        if (report.testersList.includes(acceptorID)) {
-            return error("ERROR: You are already a tester for this bug report.");
+        if((report.acceptersList.length + report.deniersList.length) > (800 / reasonlimit)) {
+            return error(`ERROR: This report has too many testers already.`)
         }
-        if ((report.acceptersList.length + report.deniersList.length) > 16) {
-            return error("ERROR: This report has too many testers already.");
+        const acceptance = {
+            "acceptor": acceptor,
+            "reason": reason,
+            "force": false
         }
-        const acceptance = `:white_check_mark: **${acceptor}**: \`${reason}\``;
-        BugReport.accept(report, acceptance, acceptorID, bot);
+        BugReport.accept(report, acceptance, acceptorID, bot)
         const reportsJSON = JSON.stringify(reportsArr);
         fs.writeFile("./reports.json", reportsJSON, "utf8", err => {
             if(err) {

@@ -9,5 +9,7 @@
     "channelid_pendingbugs": "711987227781103646",
     "channelid_approvedbugs": "711987291622604883",
     "mintime": 1,
-    "mintesters": 3
+    "mintesters": 3,
+    "reasonlimit": 100,
+    "version": 1
 }
