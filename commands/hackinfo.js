@@ -8,15 +8,15 @@ const colors = require("../colors.json");
  */
 module.exports.run = async (bot, message, args) => {
     let supportEmbed = new Discord.RichEmbed()
-        .setAuthor('Reviewer -', bot.avatarURL)
+        .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("SUPPORT")
-        .setDescription(`All of our hacks are listed on our github, which can be accessed in the <#683847137511079959> channel. You can also watch this video for a full tutorial on how to hack: https://www.youtube.com/watch?v=DMwDyV9mmsM`)
-        .setColor(colors.info)
-    message.channel.send(supportEmbed)
-}
+        .setDescription("All of our hacks are listed on our github, which can be accessed in the <#683847137511079959> channel. You can also watch this video for a full tutorial on how to hack: https://www.youtube.com/watch?v=DMwDyV9mmsM")
+        .setColor(colors.info);
+    message.channel.send(supportEmbed);
+};
 
 
 module.exports.help = {
     name: "hackinfo",
     description:"Instructions on how to hack."
-}
+};

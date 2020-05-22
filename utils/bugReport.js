@@ -107,9 +107,9 @@ module.exports = class BugReport {
             pending: colors.standby,
             approved: colors.valid,
             denied: colors.error
-        }
+        };
         const bugReportEmbed = new Discord.RichEmbed()
-            .setAuthor('Reviewer -', bot.avatarURL)
+            .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle(`BUG REPORT - ID: ${report.id}`)
             .setDescription(`**New bug report submitted by**: \`${report.authorTag}\``)
             .addField("Name of the affected hack -", report.name)
@@ -172,14 +172,14 @@ module.exports = class BugReport {
                     const deniersList = report.deniersList.map(denier => "- " + denier.reason || denier)
                     if(acceptersList.length < 1) {
                         if(deniersList.length < 1) {
-                            return "**NONE**"
+                            return "**NONE**";
                         }
-                        return deniersList.join("\n")
+                        return deniersList.join("\n");
                     } else {
                         if(deniersList.length < 1) {
-                            return acceptersList.join("\n")
+                            return acceptersList.join("\n");
                         }
-                        return `${acceptersList.join("\n")}\n${deniersList.join("\n")}`
+                        return `${acceptersList.join("\n")}\n${deniersList.join("\n")}`;
                     }
                 }
                 function createNotesList(report) {
@@ -190,7 +190,7 @@ module.exports = class BugReport {
                 }
                 
                 const fieldBuilder = (key, val) => `## ${key}\n${val}`;
-                const reportHeader = `# Bug Report - ID: ${report.id}\n#### Submitted by: \`${report.authorTag}\``
+                const reportHeader = `# Bug Report - ID: ${report.id}\n#### Submitted by: \`${report.authorTag}\``;
                 const reportBody = (
                     "\n\n" + fieldBuilder("Name of affected hack", report.name) +
                     "\n\n" + fieldBuilder("Description of bug", report.desc) +
@@ -205,10 +205,10 @@ module.exports = class BugReport {
             }
             
             const issueBody = {
-                'title': `AUTO BUG SYSTEM: ${report.name}`,
-                'body': formatReportForGithub(report),
-                'labels': ["Bug", "ABS"] 
-            }
+                "title": `AUTO BUG SYSTEM: ${report.name}`,
+                "body": formatReportForGithub(report),
+                "labels": ["Bug", "ABS"] 
+            };
 
             const jsonRes = await fetch("https://api.github.com/repos/Prodigy-Hacking/ProdigyMathGameHacking/issues", {
                 "method": "POST",
@@ -228,11 +228,11 @@ module.exports = class BugReport {
 
             // Give submission user bug hunter role
             const guild = bot.channels.find(c => c.id === pending_channelid).guild;
-            let role = guild.roles.find(r => r.id === bughunter_roleid)
-            let member = guild.members.find(m => m.id === report.authorID)
-            member.addRole(role)
+            let role = guild.roles.find(r => r.id === bughunter_roleid);
+            let member = guild.members.find(m => m.id === report.authorID);
+            member.addRole(role);
         }
-        BugReport.edit(report, bot)
+        BugReport.edit(report, bot);
     }
     static decline(report, denial, testerID, bot) {
         const rejectanceStr = `:x: **${denial.denier}**: \`${denial.reason}\``;
@@ -249,7 +249,7 @@ module.exports = class BugReport {
             // Resolve bug
             report.state = "denied";
         }
-        BugReport.edit(report, bot)
+        BugReport.edit(report, bot);
     }
 
     // Error Handler

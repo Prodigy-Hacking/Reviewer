@@ -1,5 +1,3 @@
-exports.run = (bot, paramter) => 
-{
-
+exports.run = (bot, paramter) => {
     
 }
