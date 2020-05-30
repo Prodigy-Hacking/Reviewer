@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
+const fs = require("fs")
 const fetch = require("node-fetch");
+const Perks = require("./perks.js")
 const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const github_token = botsettings.github_token;
@@ -7,6 +9,7 @@ const pending_channelid = botsettings.channelid_pendingbugs;
 const approved_channelid = botsettings.channelid_approvedbugs;
 const bughunter_roleid = botsettings.roleid_bughunter;
 const mintesters = botsettings.mintesters;
+const tokensPerBug = botsettings.tokens_per_bug;
 const version = botsettings.version;
 
 
@@ -28,61 +31,6 @@ module.exports = class BugReport {
         this.notes = [];
         this.version = version;
     }
-    /**
-     * Better System by Top down Inheritance and bottom to top functionality
-     * BugReport takes an id (this is all it takes)
-     *      Constructor
-     *          takes data from user
-     *          Message (takes a message id of embed)
-     *              edit (edits message)
-     *              submit (submits message)
-     *              TesterLists
-     *                  CONST MAX
-     *                  TOTAL
-     *                  AcceptorList
-     *                      submit(): Update total after check total < max
-     *                  Denier List
-     *                      submit(): Update total after check total < max
-     *              NoteList
-     *                  CONST MAX
-     *                  TOTAL
-     *                  Note
-     *                      submit(): Update total after check total < max
-     * 
-     * Embed titles are limited to 256 characters
-     * Embed descriptions are limited to 2048 characters
-     * There can be up to 25 fields
-     * A field's name is limited to 256 characters and its value to 1024 characters
-     * The footer text is limited to 2048 characters
-     * The author name is limited to 256 characters
-     * In addition, the sum of all characters in an embed structure must not exceed 6000 characters
-     * A bot can have 1 embed per message
-     * A webhook can have 10 embeds per message
-     * 
-     * 
-     * 
-     * TODO:
-     * Seperate functions by purpose
-     * Standardize classes/functions?
-     * Keep functions in correct parent class
-     * Create classes based on functions needed
-     * Attach github link to completed issue (ill do that now)
-     * 
-     * 
-     * If a report is not pending, it shouldn't accept more testers.
-     * Max testers --> (2 * AcceptedTesters) - 1
-     * Max reason  --> (8 * 100) / MaxTesters
-     * 
-     * While the report is pending, you can accept/deny.
-     *      If you've already accepted/denied that issue
-     *          Remove your previous accept/deny
-     *      Add the new accept/deny + reason to the end
-     *
-     * Notes should be added to the github
-     * 
-     * Once a report is accepted, make an issue on github, and attach the resulting link onto the embed
-     * 
-     */
     static createEmbed(report, bot) {
         function createTestersList(report) {
             const acceptersList = report.acceptersList.map(acceptor => acceptor.reason || acceptor)
@@ -231,6 +179,20 @@ module.exports = class BugReport {
             let role = guild.roles.find(r => r.id === bughunter_roleid);
             let member = guild.members.find(m => m.id === report.authorID);
             member.addRole(role);
+
+            // Give user bug tokens
+            fs.readFile("./bughuntertracker.json", "utf8", (err, data) => {
+                if(err) return console.error(err);
+                const bughunterArr = JSON.parse(data);
+                const bughunter = bughunterArr.find(bughunter => bughunter.id === report.authorID);
+                if(bughunter) {
+                    bughunter.tokens += tokensPerBug;
+                } else bughunterArr.push({id: report.authorID, tokens: tokensPerBug, tier: 0, perks: new Perks()})
+                const bughunterJSON = JSON.stringify(bughunterArr);
+                fs.writeFile("./bughuntertracker.json", bughunterJSON, "utf8", err => {
+                    if(err) console.error(err);
+                });
+            });
         }
         BugReport.edit(report, bot);
     }
