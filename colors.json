@@ -3,5 +3,12 @@
     "standby": "#ded82a",
     "valid": "#2ade2d",
     "error": "#de2a2a",
-    "dev": "#ffffff"
+    "dev": "#ffffff",
+    "user": "#000000",
+    "tier0": "#c6c6c6",
+    "tier1": "#c8ae99",
+    "tier2": "#4ad46b",
+    "tier3": "#3dff66",
+    "tier4": "#6cff00",
+    "tier5": "#f7ff00"
 }
