@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     let supportEmbed = new Discord.RichEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("SUPPORT")
-        .setDescription("All of our hacks are listed on our github, which can be accessed in the <#683847137511079959> channel. You can also watch this video for a full tutorial on how to hack: https://www.youtube.com/watch?v=DMwDyV9mmsM")
+        .setDescription("All of our hacks are listed on our github, which can be accessed in the <#683847137511079959> channel. You can also watch this video for a full tutorial on how to hack: https://www.youtube.com/watch?v=HSPeyU5XGE4")
         .setColor(colors.info);
     message.channel.send(supportEmbed);
 };
