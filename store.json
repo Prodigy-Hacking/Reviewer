@@ -1,0 +1,38 @@
+{
+    "color_roles": {
+        "tokens": 20,
+        "description": "Gives you a colored role of your choice for a week!"
+    },
+    "tier_1": {
+        "tokens": 45,
+        "description": "The first tier of the bug hunter progression, requires buyer to be a bug hunter. Comes with a cool role that stays with you for a week."
+    },
+    "tier_2": {
+        "tokens": 70,
+        "description": "The second tier of the bug hunter progression, requires buyer to be a tier 1 bug hunter. Comes with a cool role that stays with you for a week."
+    },
+    "tier_3": {
+        "tokens": 100,
+        "description": "The third tier of the bug hunter progression, requires buyer to be a tier 2 bug hunter. Comes with a cool role that stays with you for a week."
+    },
+    "tier_4": {
+        "tokens": 150,
+        "description": "The fourth tier of the bug hunter progression, requires buyer to be a tier 3 bug hunter. Comes with a cool role that stays with you for a week."
+    },
+    "tier_5": {
+        "tokens": 230,
+        "description": "The fifth and last tier of the bug hunter progression, requires buyer to be a tier 4 bug hunter. Comes with a cool role that stays with you forever. :o"
+    },
+    "launcher": {
+        "tokens": 60,
+        "description": "Gives you access to the ?launch command, which lets you launch others into space!"
+    },
+    "embeder": {
+        "tokens": 60,
+        "description": "Gives you access to the ?embed command, which lets you turn your messages into embeds with C O L O R!"
+    },
+    "mocker": {
+        "tokens": 60,
+        "description": "Gives you access to the ?mock command, which lets you mock others!"
+    }
+}

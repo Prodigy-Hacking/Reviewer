@@ -6,6 +6,8 @@ const mintime = botsettings.mintime;
 const roleid = botsettings.roleid_member;
 
 exports.run = (bot, member) => {
+    // Because the skids can't read...
+    return;
     let dialogue = [
         "Welcome to the ProdigyMathGameHacking Discord!",
         "Before we get you started, we need you to become familiar with our rules and faq.",

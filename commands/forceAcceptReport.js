@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const colors = require("../colors.json");
 const BugReport = require("../utils/bugReport.js");
 const devsio = require('../utils/devsio.js');
+const {isBugHunter} = require("../utils/isBugHunter.js")
 const fs = require("fs");
 const botSettings = require("../botsettings.json")
 const pending_channelid = botSettings.channelid_pendingbugs;
@@ -65,6 +66,7 @@ module.exports.run = async (bot, message, args) => {
         })
         message.delete(0);
     })
+    
     // Error Handler
     
     function error(errorMessage) {

@@ -1,2 +1,2 @@
 # Reviewer
- Discord waiting room bot for prodigymathhacks discord.
+## Bot for ProdigyMathGameHacking Discord that integrates with the ProdigyMathGameHacking repository.
