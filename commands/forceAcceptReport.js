@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
                 }
             });
         })
-        message.delete(0);
+        message.delete();
     })
     
     // Error Handler
@@ -77,7 +77,7 @@ module.exports.run = async (bot, message, args) => {
             .setDescription(`${errorMessage}\nBug acceptance process halted. Please run the command again to restart your report.`)
             .setColor(colors.error)
         channel.send(errorEmbed).then(msg => {
-            message.delete(0)
+            message.delete()
             msg.delete(5000)
         });
     }

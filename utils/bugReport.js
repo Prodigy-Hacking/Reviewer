@@ -83,8 +83,8 @@ module.exports = class BugReport {
     }
     static edit(report, bot) {
         const newPendingEmbed = BugReport.createEmbed(report, bot);
-        const pendingChannel = bot.channels.find(c => c.id === pending_channelid);
-        pendingChannel.fetchMessages({around: report.messageID, limit: 1}).then(messages => {
+        const pendingChannel = bot.channels.cache.find(c => c.id === pending_channelid);
+        pendingChannel.messages.fetch({around: report.messageID, limit: 1}).then(messages => {
             const fetchedMsg = messages.first();
             fetchedMsg.edit(newPendingEmbed);
         });
@@ -171,12 +171,12 @@ module.exports = class BugReport {
             report.url = await jsonRes.html_url;
 
             // Submit to approved queue channel
-            const approved_channel = bot.channels.find(c => c.id === approved_channelid);
+            const approved_channel = bot.channels.cache.find(c => c.id === approved_channelid);
             const approved_embed = BugReport.createEmbed(report, bot);
             approved_channel.send(approved_embed);
 
             // Give submission user bug hunter role
-            const guild = bot.channels.find(c => c.id === pending_channelid).guild;
+            const guild = bot.channels.cache.find(c => c.id === pending_channelid).guild;
             let role = guild.roles.find(r => r.id === bughunter_roleid);
             let member = guild.members.find(m => m.id === report.authorID);
             member.addRole(role);
@@ -218,7 +218,7 @@ module.exports = class BugReport {
     // Error Handler
     
     static error(errorMessage, bot) {
-        const channel = bot.channels.find(c => c.id === pending_channelid);
+        const channel = bot.channels.cache.find(c => c.id === pending_channelid);
         const errorEmbed = new Discord.MessageEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
