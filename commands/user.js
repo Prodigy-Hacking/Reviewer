@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const fs = require("fs");
 const Perks = require("../utils/perks.js")
 const colors = require("../colors.json");
-
+const { MessageEmbed } = require("discord.js");
 /**
  *
  * @param {Discord.Client} bot
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args) => {
         const bugHunter = bugHunterArr.find(bughunter => bughunter.id === member.id);
         if(bugHunter) {
             const bugHunterPerks = bugHunter.perks;
-            let userInfoEmbed = new Discord.RichEmbed()
+            let userInfoEmbed = new Discord.MessageEmbed()
                 .setAuthor("Reviewer -", bot.avatarURL)
                 .setTitle("USERINFO")
                 .setDescription(`**User info for \`${member.user.tag}\`\n\n${bugHunter.tier ? `Tier ${tierRomanNumerals[bugHunter.tier - 1]} ` : ``}Bug Hunter**`)
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args) => {
                 .setFooter("Requested by: " + message.author.tag, message.author.displayAvatarURL);
             message.channel.send(userInfoEmbed);
         } else {
-            let userInfoEmbed = new Discord.RichEmbed()
+            let userInfoEmbed = new Discord.MessageEmbed()
                 .setAuthor("Reviewer -", bot.avatarURL)
                 .setTitle("USERINFO")
                 .setDescription(`**User info for \`${member.user.tag}\`\n\nNot a bug hunter.**`)
@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
     
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nUser info process halted. Please run the command again to restart.`)

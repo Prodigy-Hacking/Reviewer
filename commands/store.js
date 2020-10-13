@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const colors = require("../colors.json");
 const storeJSON = require("../store.json");
+const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -8,7 +9,7 @@ const storeJSON = require("../store.json");
  * @param {Discord.TextChannel} channel
  */
 module.exports.run = async (bot, message, args) => {
-    let storeEmbed = new Discord.RichEmbed()
+    let storeEmbed = new Discord.MessageEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("STORE")
         .setDescription("The store where you can exchange bug tokens for cool perks!\n\nNOTE: BT stands for Bug Tokens and is not part of the item's name.")

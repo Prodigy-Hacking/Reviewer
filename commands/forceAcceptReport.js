@@ -8,6 +8,7 @@ const botSettings = require("../botsettings.json")
 const pending_channelid = botSettings.channelid_pendingbugs;
 const prefix = botSettings.prefix;
 const reasonlimit = botSettings.reasonlimit;
+const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -70,7 +71,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
     
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug acceptance process halted. Please run the command again to restart your report.`)

@@ -11,6 +11,7 @@ const bughunter_roleid = botsettings.roleid_bughunter;
 const mintesters = botsettings.mintesters;
 const tokensPerBug = botsettings.tokens_per_bug;
 const version = botsettings.version;
+const { MessageEmbed } = require("discord.js");
 
 
 module.exports = class BugReport {
@@ -56,7 +57,7 @@ module.exports = class BugReport {
             approved: colors.valid,
             denied: colors.error
         };
-        const bugReportEmbed = new Discord.RichEmbed()
+        const bugReportEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle(`BUG REPORT - ID: ${report.id}`)
             .setDescription(`**New bug report submitted by**: \`${report.authorTag}\``)
@@ -74,7 +75,7 @@ module.exports = class BugReport {
     }
     static async submit(report, bot) {
         // Submit to pending queue channel
-        const pending_channel = bot.channels.find(c => c.id === pending_channelid);
+        const pending_channel = bot.channels.cache.find(c => c.id === pending_channelid);
         const pending_embed = BugReport.createEmbed(report, bot);
         const msg = await pending_channel.send(pending_embed);
         report.messageID = await msg.id;
@@ -218,7 +219,7 @@ module.exports = class BugReport {
     
     static error(errorMessage, bot) {
         const channel = bot.channels.find(c => c.id === pending_channelid);
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug report system process halted. Please run the command again to restart your report.`)

@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const colors = require("../colors.json");
 const BugReport = require("../utils/bugReport.js");
 const fs = require("fs");
+const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -29,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
         await bugForm(channel);
         bot.reporting.delete(member.id);
 
-        const confirmationEmbed = new Discord.RichEmbed()
+        const confirmationEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("SUCCESS")
             .setDescription("Your bug report has been successfully sent! If it gets accepted, you can become a bug hunter! :tada:") 
@@ -41,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
     async function bugForm(channel) {
         let dialogueResults = [];
         for (const line of Object.entries(bugFormDialogue)) {
-            const dialogueEmbed = new Discord.RichEmbed()
+            const dialogueEmbed = new Discord.MessageEmbed()
                 .setAuthor("Reviewer -", bot.avatarURL)
                 .setTitle("BUG REPORT FORM")
                 .setDescription(line) 
@@ -80,7 +81,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
 
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug reporting process halted. Please run the command again to restart your report.`)

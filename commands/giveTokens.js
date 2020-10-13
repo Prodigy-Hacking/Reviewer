@@ -5,12 +5,13 @@ const devsio = require('../utils/devsio.js');
 const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const prefix = botsettings.prefix;
+const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
     const member = message.guild.member(message.mentions.members.first() || args[0]);
     const tokens = Number(args[1]);
 
-    const confirmationEmbed = new Discord.RichEmbed()
+    const confirmationEmbed = new Discord.MessageEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("SUCCESS")
         .setDescription("Tokens given! :tada:") 
@@ -40,7 +41,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
     
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nToken addition process halted. Please run the command again to restart.`)

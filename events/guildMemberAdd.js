@@ -4,6 +4,7 @@ const botsettings = require("../botsettings.json");
 const prefix = botsettings.prefix;
 const mintime = botsettings.mintime;
 const roleid = botsettings.roleid_member;
+const { MessageEmbed } = require("discord.js");
 
 exports.run = (bot, member) => {
     // Because the skids can't read...
@@ -15,24 +16,24 @@ exports.run = (bot, member) => {
     ];
 
     dialogue.forEach(msg => {
-        let welcomeEmbed = new Discord.RichEmbed()
+        let welcomeEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("WELCOME")
             .setDescription(msg)
             .setColor(colors.info);
         member.send(welcomeEmbed);
     });
-    let startReviewEmbed = new Discord.RichEmbed()
+    let startReviewEmbed = new Discord.MessageEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("REVIEWING...")
         .setDescription(`Come back to this DM and type ${prefix}finish when you are done carefully reading the rules!`)
         .setColor(colors.standby);
-    let errorEmbed = new Discord.RichEmbed()
+    let errorEmbed = new Discord.MessageEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("FAILED")
         .setDescription(`Please read all of our rules very carefully, then come back and type ${prefix}finish.`)
         .setColor(colors.error);
-    let successEmbed = new Discord.RichEmbed()
+    let successEmbed = new Discord.MessageEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("SUCCESS")
         .setDescription("Thank you for reading all of our rules, you will now have access to our server.\nRemember to abide by these rules or your account may be punished.")
