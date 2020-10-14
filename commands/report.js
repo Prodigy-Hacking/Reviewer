@@ -69,10 +69,10 @@ module.exports.run = async (bot, message, args) => {
         fs.readFile("./reports.json", "utf8", (err, data) => {
             if(err) return console.error(err);
             const reportsArr = JSON.parse(data);
-            reportsArr.push(bugReport);
+
 
             const reportsJSON = JSON.stringify(reportsArr);
-            fs.writeFile("./reports.json", reportsJSON, "utf8", err => {
+            fs.writeFileSync("./reports.json", reportsJSON, "utf8", err => {
                 if(err) console.error(err);
             });
         });
