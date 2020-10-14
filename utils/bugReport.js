@@ -5,7 +5,7 @@ const Perks = require("./perks.js")
 const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const github_token = botsettings.github_token;
-const pending_channelid = botsettings.channelid_pendingbugs;
+const pending_channelid = "711987227781103646"
 const approved_channelid = botsettings.channelid_approvedbugs;
 const bughunter_roleid = botsettings.roleid_bughunter;
 const mintesters = botsettings.mintesters;
@@ -84,7 +84,7 @@ module.exports = class BugReport {
     static edit(report, bot) {
         const newPendingEmbed = BugReport.createEmbed(report, bot);
         const pendingChannel = bot.channels.cache.find(c => c.id === pending_channelid);
-        pendingChannel.messages.fetch({around: report.messageID, limit: 1}).then(messages => {
+        pendingChannel.messages.fetch(true, {around: report.messageID, limit: 1}).then(messages => {
             const fetchedMsg = messages.first();
             fetchedMsg.edit(newPendingEmbed);
         });
