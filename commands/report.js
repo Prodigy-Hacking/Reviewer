@@ -66,15 +66,13 @@ module.exports.run = async (bot, message, args) => {
     // Submit to bug queue with unique id
     async function submit(bugReport) {
         bugReport = await BugReport.submit(bugReport, bot);
-        fs.readFile("./reports.json", "utf8", (err, data) => {
+        fs.readFileSync("./reports.json", "utf8", (err, data) => {
             if(err) return console.error(err);
             const reportsArr = JSON.parse(data);
 
 
             const reportsJSON = JSON.stringify(reportsArr);
-            fs.writeFileSync("./reports.json", reportsJSON, "utf8", err => {
-                if(err) console.error(err);
-            });
+            fs.writeFileSync('./reports.json', reportsJSON, { encoding: "utf8" });
         });
     }
 
