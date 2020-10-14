@@ -7,13 +7,13 @@ exports.run = async (bot, msg) => {
     bot.user.setPresence({
         status: "online",
         game: {
-            name: `${botsettings.prefix}help for ${bot.users.size} users.`
+            name: `${botsettings.prefix}help for ${bot.users.cache.size} users.`
         }
     });
     setInterval(() => bot.user.setPresence({
         status: "online",
         game: {
-            name: `${botsettings.prefix}help for ${bot.users.size} users.`
+            name: `${botsettings.prefix}help for ${bot.users.cache.size} users.`
         }
     }), 60 * 60 * 1000); 
 };
