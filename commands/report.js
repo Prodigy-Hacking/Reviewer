@@ -23,7 +23,7 @@ module.exports.run = async (bot, message, args) => {
     
     if(bot.reporting.has(member.id)) return;
     if(channel.type != "dm") {
-        message.delete(0);
+        message.delete();
         return error("ERROR: Please run this command in a DM.");
     } else {
         bot.reporting.add(member.id);

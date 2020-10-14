@@ -15,17 +15,17 @@ exports.run = async (bot, message) => {
     let content = message.content.toLowerCase();
 
     if(message.content === botSettings.token){
-        message.delete(0);
+        message.delete();
     }
 
     if(message.author.bot) return;
 
     // Whitelist commands in specific channels
     if(message.channel.id === github_channelid && !(content.startsWith("?verify ") || content.startsWith("?done "))) {
-        message.delete(0);
+        message.delete();
     }
     if(message.channel.id === pending_channelid && !(pending_channel_commands.some(command => content.startsWith(`${prefix + command} `)))) {
-        message.delete(0);
+        message.delete();
     }
 
     // warn and help feature
@@ -34,7 +34,7 @@ exports.run = async (bot, message) => {
             let cmd = bot.commands.get("hackinfo");
             cmd.run(bot, message);
         } else {
-            message.delete(0);
+            message.delete();
             message.author.send(`You have been warned for: \`Account Hacking Request\`. Any evasion of this automatic warning system will result in a ban from the server. All instructions for hacking can be found by using the \`${prefix}hackinfo\` command in the server.`);
         }
     }

@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args) => {
             .setDescription(`${errorMessage}\nToken addition process halted. Please run the command again to restart.`)
             .setColor(colors.error);
         message.channel.send(errorEmbed).then(msg => {
-            message.delete(0);
+            message.delete();
             msg.delete(10000);
         });
     }
