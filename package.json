@@ -5,7 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "array-sort": "^1.0.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bufferutil": "^4.0.0",
     "color": "^3.1.0",
     "colornames": "^1.1.1",
