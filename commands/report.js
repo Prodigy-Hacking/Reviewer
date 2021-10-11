@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const colors = require("../colors.json");
 const BugReport = require("../utils/bugReport.js");
 const fs = require("fs");
-const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -23,14 +22,14 @@ module.exports.run = async (bot, message, args) => {
     
     if(bot.reporting.has(member.id)) return;
     if(channel.type != "dm") {
-        message.delete();
+        message.delete(0);
         return error("ERROR: Please run this command in a DM.");
     } else {
         bot.reporting.add(member.id);
         await bugForm(channel);
         bot.reporting.delete(member.id);
 
-        const confirmationEmbed = new Discord.MessageEmbed()
+        const confirmationEmbed = new Discord.RichEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("SUCCESS")
             .setDescription("Your bug report has been successfully sent! If it gets accepted, you can become a bug hunter! :tada:") 
@@ -42,7 +41,7 @@ module.exports.run = async (bot, message, args) => {
     async function bugForm(channel) {
         let dialogueResults = [];
         for (const line of Object.entries(bugFormDialogue)) {
-            const dialogueEmbed = new Discord.MessageEmbed()
+            const dialogueEmbed = new Discord.RichEmbed()
                 .setAuthor("Reviewer -", bot.avatarURL)
                 .setTitle("BUG REPORT FORM")
                 .setDescription(line) 
@@ -66,20 +65,22 @@ module.exports.run = async (bot, message, args) => {
     // Submit to bug queue with unique id
     async function submit(bugReport) {
         bugReport = await BugReport.submit(bugReport, bot);
-        fs.readFileSync("./reports.json", "utf8", (err, data) => {
+        fs.readFile("./reports.json", "utf8", (err, data) => {
             if(err) return console.error(err);
             const reportsArr = JSON.parse(data);
-
+            reportsArr.push(bugReport);
 
             const reportsJSON = JSON.stringify(reportsArr);
-            fs.writeFileSync('./reports.json', reportsJSON, { encoding: "utf8" });
+            fs.writeFile("./reports.json", reportsJSON, "utf8", err => {
+                if(err) console.error(err);
+            });
         });
     }
 
     // Error Handler
 
     function error(errorMessage) {
-        const errorEmbed = new Discord.MessageEmbed()
+        const errorEmbed = new Discord.RichEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug reporting process halted. Please run the command again to restart your report.`)

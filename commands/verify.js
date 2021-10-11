@@ -5,7 +5,6 @@ const botsettings = require("../botsettings.json");
 const prefix = botsettings.prefix;
 const roleid = botsettings.roleid_github;
 const channelid = botsettings.channelid_github;
-const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -27,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
     ];
     
     dialogue.forEach(msg => {
-        let promptGistCreateEmbed = new Discord.MessageEmbed()
+        let promptGistCreateEmbed = new Discord.RichEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("VERIFY")
             .setDescription(msg)
@@ -35,13 +34,13 @@ module.exports.run = async (bot, message, args) => {
         channel.send(promptGistCreateEmbed);
     });
 
-    let promptGistCreateEmbed = new Discord.MessageEmbed()
+    let promptGistCreateEmbed = new Discord.RichEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("Waiting...")
         .setDescription(`When you are done with the previous steps, come back to this channel and type ${prefix}done.`)
         .setColor(colors.standby);
 
-    let verifiedEmbed = new Discord.MessageEmbed()
+    let verifiedEmbed = new Discord.RichEmbed()
         .setAuthor("Reviewer -", bot.avatarURL)
         .setTitle("VERIFIED!")
         .setDescription("You're all good to go! We have added the `@github` role to your user.")
@@ -102,7 +101,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
     
     function error(errorMessage) {
-        let errorEmbed = new Discord.MessageEmbed()
+        let errorEmbed = new Discord.RichEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nVerification process halted. Please run the command again to restart verification.`)

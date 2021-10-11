@@ -3,7 +3,6 @@ const {isBugHunter} = require("../utils/isBugHunter.js")
 const botSettings = require("../botsettings.json");
 const colors = require("../colors.json");
 const prefix = botSettings.prefix;
-const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
     message.delete();
@@ -21,7 +20,7 @@ module.exports.run = async (bot, message, args) => {
         msg = args.slice(0).join(" ");
     }
 
-    let embed = new Discord.MessageEmbed()
+    let embed = new Discord.RichEmbed()
         .setTitle(msg)
         .setColor(color || colors.info)
         .setFooter("- " + message.author.tag)
@@ -30,7 +29,7 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
 
     function error(errorMessage) {
-        const errorEmbed = new Discord.MessageEmbed()
+        const errorEmbed = new Discord.RichEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nEmbeder process halted. Please run the command again to restart your report.`)

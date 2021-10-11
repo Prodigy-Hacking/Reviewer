@@ -4,7 +4,6 @@ const fetch = require("node-fetch");
 const colors = require("../colors.json");
 const botSettings = require("../botsettings.json");
 const prefix = botSettings.prefix;
-const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
 	const mockMsg = args.slice(0).join(" ");
@@ -15,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
 
 	const mockURL = await (await fetch(`https://wt-22f5e1b994607080041c947354b7f9a5-0.run.webtask.io/sponge?message=${mockMsg}`)).text()
 	
-  	const mockEmbed = new Discord.MessageEmbed()
+  	const mockEmbed = new Discord.RichEmbed()
 	  	.setAuthor('Reviewer -', bot.avatarURL)	
 		.setTitle("MOCK")
 		.setColor(colors.info)
@@ -26,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
   	// Error Handler
 	
   	function error(errorMessage) {
-		const errorEmbed = new Discord.MessageEmbed()
+		const errorEmbed = new Discord.RichEmbed()
 			.setAuthor("Reviewer -", bot.avatarURL)
 			.setTitle("ERROR")
 			.setDescription(`${errorMessage}\n Mocker process halted. Please run the command again to restart.`)

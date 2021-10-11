@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { RichEmbed } = require("discord.js");
 const colors = require("../colors.json");
 
 module.exports.run = async (bot, message, args) => {
@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
         commands.push(c.help.name + ": "+ c.help.description);
     });
     commands = commands.join("\n\n");
-    let helpEmbed = new MessageEmbed()
+    let helpEmbed = new RichEmbed()
         .setColor(colors.info)
         .setDescription(commands)
         .setTimestamp()
