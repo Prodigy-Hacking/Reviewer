@@ -6,6 +6,7 @@ const botsettings = require("../botsettings.json");
 const storeJSON = require("../store.json");
 const prefix = botsettings.prefix;
 const bugHunterRoleID = botsettings.roleid_bughunter;
+const { MessageEmbed } = require("discord.js");
 
 const perksPath = "../utils/Perks/";
 
@@ -56,7 +57,7 @@ module.exports.run = async (bot, message, args) => {
                 return error(`ERROR: Write to database failed. Please send the following message to Whimpers: (${err})`);
             }
         });
-        const confirmationEmbed = new Discord.RichEmbed()
+        const confirmationEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("SUCCESS")
             .setDescription("Your purchase was successfull! :tada:") 
@@ -64,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
         channel.sendEmbed(confirmationEmbed).then(msg => msg.delete(5000));
     });
 
-    message.delete(0);
+    message.delete();
 
     async function buyColorRole(color) {
         if(!color) return `ERROR: Incorrect Usage. Please specify a color. Correct usage: \`${prefix}buy Color Roles color\``;
@@ -82,13 +83,13 @@ module.exports.run = async (bot, message, args) => {
     // Error Handler
     
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nPurchase process halted. Please run the command again to restart.`)
             .setColor(colors.error);
         channel.send(errorEmbed).then(msg => {
-            message.delete(0);
+            message.delete();
             msg.delete(10000);
         });
     }

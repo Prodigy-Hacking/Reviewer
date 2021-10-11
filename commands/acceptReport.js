@@ -6,6 +6,7 @@ const botSettings = require("../botsettings.json");
 const pending_channelid = botSettings.channelid_pendingbugs;
 const prefix = botSettings.prefix;
 const reasonlimit = botSettings.reasonlimit;
+const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -59,18 +60,18 @@ module.exports.run = async (bot, message, args) => {
             }
         });
     });
-    message.delete(0);
+    message.delete();
 
     // Error Handler
     
     function error(errorMessage) {
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug acceptance process halted. Please run the command again to restart your report.`)
             .setColor(colors.error);
         channel.send(errorEmbed).then(msg => {
-            message.delete(0);
+            message.delete();
             msg.delete(5000);
         });
     }

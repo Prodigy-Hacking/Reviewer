@@ -5,12 +5,13 @@ const Perks = require("./perks.js")
 const colors = require("../colors.json");
 const botsettings = require("../botsettings.json");
 const github_token = botsettings.github_token;
-const pending_channelid = botsettings.channelid_pendingbugs;
+const pending_channelid = "711987227781103646"
 const approved_channelid = botsettings.channelid_approvedbugs;
 const bughunter_roleid = botsettings.roleid_bughunter;
 const mintesters = botsettings.mintesters;
 const tokensPerBug = botsettings.tokens_per_bug;
 const version = botsettings.version;
+const { MessageEmbed } = require("discord.js");
 
 
 module.exports = class BugReport {
@@ -56,7 +57,7 @@ module.exports = class BugReport {
             approved: colors.valid,
             denied: colors.error
         };
-        const bugReportEmbed = new Discord.RichEmbed()
+        const bugReportEmbed = new Discord.MessageEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle(`BUG REPORT - ID: ${report.id}`)
             .setDescription(`**New bug report submitted by**: \`${report.authorTag}\``)
@@ -74,7 +75,7 @@ module.exports = class BugReport {
     }
     static async submit(report, bot) {
         // Submit to pending queue channel
-        const pending_channel = bot.channels.find(c => c.id === pending_channelid);
+        const pending_channel = bot.channels.cache.find(c => c.id === pending_channelid);
         const pending_embed = BugReport.createEmbed(report, bot);
         const msg = await pending_channel.send(pending_embed);
         report.messageID = await msg.id;
@@ -82,8 +83,8 @@ module.exports = class BugReport {
     }
     static edit(report, bot) {
         const newPendingEmbed = BugReport.createEmbed(report, bot);
-        const pendingChannel = bot.channels.find(c => c.id === pending_channelid);
-        pendingChannel.fetchMessages({around: report.messageID, limit: 1}).then(messages => {
+        const pendingChannel = bot.channels.cache.find(c => c.id === pending_channelid);
+        pendingChannel.messages.fetch(true, {around: report.messageID, limit: 1}).then(messages => {
             const fetchedMsg = messages.first();
             fetchedMsg.edit(newPendingEmbed);
         });
@@ -170,12 +171,12 @@ module.exports = class BugReport {
             report.url = await jsonRes.html_url;
 
             // Submit to approved queue channel
-            const approved_channel = bot.channels.find(c => c.id === approved_channelid);
+            const approved_channel = bot.channels.cache.find(c => c.id === approved_channelid);
             const approved_embed = BugReport.createEmbed(report, bot);
             approved_channel.send(approved_embed);
 
             // Give submission user bug hunter role
-            const guild = bot.channels.find(c => c.id === pending_channelid).guild;
+            const guild = bot.channels.cache.find(c => c.id === pending_channelid).guild;
             let role = guild.roles.find(r => r.id === bughunter_roleid);
             let member = guild.members.find(m => m.id === report.authorID);
             member.addRole(role);
@@ -217,8 +218,8 @@ module.exports = class BugReport {
     // Error Handler
     
     static error(errorMessage, bot) {
-        const channel = bot.channels.find(c => c.id === pending_channelid);
-        const errorEmbed = new Discord.RichEmbed()
+        const channel = bot.channels.cache.find(c => c.id === pending_channelid);
+        const errorEmbed = new Discord.MessageEmbed()
             .setAuthor('Reviewer -', bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug report system process halted. Please run the command again to restart your report.`)

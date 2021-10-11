@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const devsio = require('../utils/devsio.js');
 const colors = require('../colors.json');
+const { MessageEmbed } = require("discord.js");
 
 /**
  *
@@ -14,7 +15,7 @@ module.exports.run = async (bot, message, args) => {
     devsio.readdevs(dataArr => {
         let devList = dataArr;
         if(devList.includes(message.author.id) && !devList.includes(user.id)) {
-            let embed = new Discord.RichEmbed()
+            let embed = new Discord.MessageEmbed()
                 .setAuthor('Reviewer Devtools -', message.author.avatarURL)
                 .setTitle("Add Dev")
                 .setDescription(`Added ${userInfo.username + "#" + userInfo.discriminator} to the developer list!`)
@@ -25,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
                 message.delete(60000);
             }).catch(e => require("../utils/error.js").error(bot, e));
         } else {
-            let embed = new Discord.RichEmbed()
+            let embed = new Discord.MessageEmbed()
                 .setAuthor('Reviewer Devtools -', message.author.avatarURL)
                 .setTitle("Add Dev")
                 .setDescription(!devList.includes(message.author.id) ? `You do not have permission to run this command!` : `${userInfo.username + "#" + userInfo.discriminator} is already a developer.`)
