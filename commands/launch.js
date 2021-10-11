@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const {isBugHunter} = require("../utils/isBugHunter.js")
 const colors = require("../colors.json");
-const takeOff = new Discord.MessageAttachment("./assets/takeOff.jpeg", "takeOff.jpeg");
-const launchSuccess = new Discord.MessageAttachment("./assets/launchSuccess.gif", "launchSuccess.gif");
-const launchFail = new Discord.MessageAttachment("./assets/launchFail.gif", "launchFail.gif");
+const takeOff = new Discord.Attachment("./assets/takeOff.jpeg", "takeOff.jpeg");
+const launchSuccess = new Discord.Attachment("./assets/launchSuccess.gif", "launchSuccess.gif");
+const launchFail = new Discord.Attachment("./assets/launchFail.gif", "launchFail.gif");
 
 module.exports.run = async (bot, message, args) => {
     const user = message.mentions.users.first() || message.author;

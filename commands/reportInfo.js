@@ -4,7 +4,7 @@ const BugReport = require("../utils/bugReport.js");
 const fs = require("fs");
 const botSettings = require("../botsettings.json")
 const prefix = botSettings.prefix;
-const { MessageEmbed } = require("discord.js");
+
 /**
  *
  * @param {Discord.Client} bot
@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
 
     // Error Handler
     function error(errorMessage) {
-        const errorEmbed = new Discord.MessageEmbed()
+        const errorEmbed = new Discord.RichEmbed()
             .setAuthor("Reviewer -", bot.avatarURL)
             .setTitle("ERROR")
             .setDescription(`${errorMessage}\nBug report info process halted. Please run the command again to restart your report.`)
